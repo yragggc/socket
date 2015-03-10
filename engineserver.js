@@ -59,10 +59,13 @@ server.listen(8080);
 
 var engine = require('engine.io');
 var engineserver = engine.attach(server);
-//engineserver.allowUpgrades = false;
+
+console.log('pingTimeout = ' + engineserver.pingTimeout);
 engineserver.on('connection', function (socket) {	
   socket.on('message', function(data){console.log(data);});
-  console.log('perMessageDeflate = ' + engine.perMessageDeflate);
+
+  console.log('pingTimeout = ' + engineserver.pingTimeout);
+  console.log('perMessageDeflate = ' + engineserver.perMessageDeflate);
   socket.send('utf 8 string');
   socket.send('hello!');
   socket.on('close', function(){ });
