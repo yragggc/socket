@@ -66,6 +66,11 @@ engineserver.on('connection', function (socket) {
 
   console.log('pingTimeout = ' + engineserver.pingTimeout);
   console.log('perMessageDeflate = ' + engineserver.perMessageDeflate);
+  console.log('ws.options.perMessageDeflate = ' + engineserver.ws.options.perMessageDeflate);
+  console.log('ws.options.noServer = ' + engineserver.ws.options.noServer);
+  console.log('ws.options.clientTracking = ' + engineserver.ws.options.clientTracking);
+  console.log('ws.options.host = ' + engineserver.ws.options.host);
+
   socket.send('utf 8 string');
   socket.send('hello!');
   socket.on('close', function(){ });
