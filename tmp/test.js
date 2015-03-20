@@ -13,7 +13,7 @@ var server = http.createServer(function(request, response) {
       response.write('Hello, World.');
       response.end();
       break;
-    case '/engine.html':
+    case '/socket.html':
       fs.readFile(__dirname + path, function(error, data) {
         if (error){
           response.writeHead(404);
@@ -24,7 +24,7 @@ var server = http.createServer(function(request, response) {
         }
         response.end();
       });
-    case '/newengine.html':
+    case '/test.html':
       fs.readFile(__dirname + path, function(error, data) {
         if (error){
           response.writeHead(404);
@@ -35,7 +35,8 @@ var server = http.createServer(function(request, response) {
         }
         response.end();
       });
-    case '/node_modules/engine.io-client/engine.io.js':
+      break;
+    case '/myjs.js':
       fs.readFile(__dirname + path, function(error, data) {
         if (error){
           response.writeHead(404);
@@ -55,35 +56,10 @@ var server = http.createServer(function(request, response) {
   }
 });
 
+server.listen(8001);
 
-server.listen(8080);
-// // var engine = require('engine.io');
-// // var engineserver = engine.listen(server);
-// var eioServer = require('engine.io')(server);
-// 
-// eioServer.on('connection', function(socket){
-   // socket.send('utf 8 string');
-   // socket.send(new Buffer([0, 1, 2, 3, 4, 5])); // binary data
-  // //socket.emit('message', {'message': 'hello world'});
-  // //socket.send('hi');
-// });
+var serv_io = io.listen(server);
 
-var engine = require('engine.io');
-var engineserver = engine.attach(server);
-
-console.log('pingTimeout = ' + engineserver.pingTimeout);
-engineserver.on('connection', function (socket) {	
-  socket.on('message', function(data){console.log(data);});
-
-  console.log('pingTimeout = ' + engineserver.pingTimeout);
-  console.log('perMessageDeflate = ' + engineserver.perMessageDeflate);
-  console.log('ws.options.perMessageDeflate = ' + engineserver.ws.options.perMessageDeflate);
-  console.log('ws.options.noServer = ' + engineserver.ws.options.noServer);
-  console.log('ws.options.clientTracking = ' + engineserver.ws.options.clientTracking);
-  console.log('ws.options.host = ' + engineserver.ws.options.host);
-
-  socket.send('utf 8 string');
-  socket.send('hello!');
-  socket.on('close', function(){ });
+serv_io.sockets.on('connection', function(socket) {
+    socket.emit('message', {'message': 'hello world'});
 });
-
